@@ -9,6 +9,7 @@ import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.pool import NullPool
 
 os.environ.setdefault("APP_ENV", "test")
 os.environ.setdefault("SESSION_SECRET", "test-session-secret-at-least-32-chars!!")
@@ -77,7 +78,7 @@ async def postgres_ready() -> bool:
 async def db_session(postgres_ready: bool) -> AsyncGenerator[AsyncSession, None]:
     if not postgres_ready:
         pytest.skip("PostgreSQL is not available (start docker compose postgres)")
-    engine = create_async_engine(settings.database_url, pool_pre_ping=True)
+    engine = create_async_engine(settings.database_url, pool_pre_ping=True, poolclass=NullPool)
     # Ensure Phase 2/3 tables exist (Alembic in CI; create_all for local/demo DBs).
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
@@ -85,6 +86,17 @@ async def db_session(postgres_ready: bool) -> AsyncGenerator[AsyncSession, None]
     async with session_factory() as session:
         yield session
     await engine.dispose()
+
+
+@pytest_asyncio.fixture(autouse=True)
+async def _dispose_app_engine(postgres_ready: bool) -> AsyncGenerator[None, None]:
+    """Drop app-level pool connections when each function-scoped loop ends."""
+    yield
+    if not postgres_ready:
+        return
+    from app.core.database import engine as app_engine
+
+    await app_engine.dispose()
 
 
 @pytest_asyncio.fixture
@@ -97,6 +109,9 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
 @pytest_asyncio.fixture
 async def db_client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
     async def _override_db() -> AsyncGenerator[AsyncSession, None]:
+        # Background/inline jobs commit via AsyncSessionLocal. Expire cached
+        # instances so subsequent GETs see those commits instead of stale QUEUED.
+        db_session.expire_all()
         yield db_session
 
     app.dependency_overrides[get_db] = _override_db

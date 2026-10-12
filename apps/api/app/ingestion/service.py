@@ -408,6 +408,8 @@ class IngestionService:
         # (create_task + AsyncSessionLocal often hits "attached to a different loop").
         if settings.app_env == "test":
             await run_ingestion_job(job_id)
+            # Worker used a separate session; drop cached QUEUED rows on this session.
+            self.db.expire_all()
             return
         # Demo/dev: run in API process (start.cmd does not start a Celery worker).
         if settings.demo_mode or settings.app_env == "development":

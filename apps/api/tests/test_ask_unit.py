@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import re
 from uuid import uuid4
 
 from app.rag.providers import (
@@ -11,8 +10,8 @@ from app.rag.providers import (
     structured_to_markdown,
 )
 from app.rag.retrieval import validate_citation_indices
-from app.rag.types import RetrievalHit
 from app.rag.search_tokens import extract_search_tokens
+from app.rag.types import RetrievalHit
 
 
 def test_validate_citation_indices() -> None:

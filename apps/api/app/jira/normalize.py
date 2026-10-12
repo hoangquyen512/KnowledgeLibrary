@@ -79,7 +79,7 @@ def normalize_jira_issue(
     if not isinstance(labels, list):
         labels = [str(labels)]
     components = _field(fields, "components") or []
-    component_names = [_name_of(c) for c in components if isinstance(c, (dict, str))]
+    component_names = [_name_of(c) for c in components if isinstance(c, dict | str)]
     created = str(_field(fields, "created") or "")
     updated = str(_field(fields, "updated") or "")
     description = (
@@ -154,7 +154,7 @@ def normalize_jira_issue(
         f"Type: {issue_type}",
         f"Assignee: {assignee}",
         f"Reporter: {reporter}",
-        f"Labels: {', '.join(str(l) for l in labels)}",
+        f"Labels: {', '.join(str(label) for label in labels)}",
         f"Components: {', '.join(component_names)}",
         f"Created: {created}",
         f"Updated: {updated}",

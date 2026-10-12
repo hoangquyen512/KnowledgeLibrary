@@ -12,12 +12,22 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.audit.service import AuditService
-from app.confluence.ssrf import SsrfBlocked, assert_public_url, normalize_base_url, ssrf_http_exception
+from app.confluence.ssrf import (
+    SsrfBlocked,
+    assert_public_url,
+    normalize_base_url,
+    ssrf_http_exception,
+)
 from app.core.config import settings
 from app.core.security import decrypt_secret, encrypt_secret, mask_secret
 from app.jira.client import JiraClient, JiraClientError
 from app.models.audit import AuditAction
-from app.models.confluence import ConnectionAuthType, ConnectionMode, ConnectionStatus, CredentialLocation
+from app.models.confluence import (
+    ConnectionAuthType,
+    ConnectionMode,
+    ConnectionStatus,
+    CredentialLocation,
+)
 from app.models.jira import JiraConnection
 from app.models.source import Source, SourceExternalType, SourceStatus, SourceType
 from app.models.space import SpaceRole

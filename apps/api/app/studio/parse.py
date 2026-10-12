@@ -5,7 +5,12 @@ import re
 from typing import Any
 from uuid import uuid4
 
-from app.studio.pack import MAX_BULLETS_PER_SLIDE, MAX_MINDMAP_DEPTH, PackedSource, snippet_from_content
+from app.studio.pack import (
+    MAX_BULLETS_PER_SLIDE,
+    MAX_MINDMAP_DEPTH,
+    PackedSource,
+    snippet_from_content,
+)
 
 
 def _parse_json_text(text: str) -> dict[str, Any] | None:

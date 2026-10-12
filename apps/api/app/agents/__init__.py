@@ -1,3 +1,3 @@
-from app.agents.service import AgentService, HEARTBEAT_OFFLINE_SECONDS, hash_token
+from app.agents.service import HEARTBEAT_OFFLINE_SECONDS, AgentService, hash_token
 
 __all__ = ["AgentService", "HEARTBEAT_OFFLINE_SECONDS", "hash_token"]

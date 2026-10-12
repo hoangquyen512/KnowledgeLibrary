@@ -25,7 +25,7 @@ def test_parser_registry_loads_all_file_types():
 
 def test_csv_parser_basic():
     ensure_parsers_loaded()
-    data = "ID,Name,Status\n1,Alpha,Done\n2,Beta,Open\n".encode("utf-8")
+    data = b"ID,Name,Status\n1,Alpha,Done\n2,Beta,Open\n"
     result = get_parser(SourceType.FILE_CSV).parse(data, filename="mapping.csv")
     assert result.error_code is None
     assert len(result.documents) == 1
@@ -37,7 +37,7 @@ def test_csv_parser_basic():
 
 
 def test_excel_parser_sheet_selection(tmp_path):
-    openpyxl = pytest.importorskip("openpyxl")
+    pytest.importorskip("openpyxl")
     from openpyxl import Workbook
 
     wb = Workbook()
@@ -89,7 +89,7 @@ def test_docx_parser_headings():
     assert len(result.documents) == 1
     assert result.documents[0].chunk_hints
     labels = [c.metadata.get("citation_label") for c in result.documents[0].chunk_hints]
-    assert any("Business_Rules.docx" in (l or "") for l in labels)
+    assert any("Business_Rules.docx" in (label or "") for label in labels)
 
 
 def test_pptx_parser_slides():

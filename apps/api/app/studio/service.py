@@ -2,10 +2,9 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import UTC, datetime
 from uuid import UUID, uuid4
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -29,7 +28,6 @@ from app.studio.export_pptx import export_presentation_pptx
 from app.studio.pack import (
     DEFAULT_CHAR_BUDGET,
     MAX_DOCUMENTS,
-    PackResult,
     PackedSource,
     build_context_blocks,
     estimate_chars,

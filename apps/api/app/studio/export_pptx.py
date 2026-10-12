@@ -4,7 +4,7 @@ import io
 from typing import Any
 
 from pptx import Presentation
-from pptx.util import Inches, Pt
+from pptx.util import Pt
 
 
 def export_presentation_pptx(payload: dict[str, Any], *, deck_title: str) -> bytes:

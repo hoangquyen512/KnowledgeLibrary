@@ -174,7 +174,10 @@ class AskService:
         user: User,
         api_key: str | None = None,
     ) -> dict:
-        from app.rag.gemini_models import list_gemini_models, pick_gemini_model, resolve_gemini_models
+        from app.rag.gemini_models import (
+            pick_gemini_model,
+            resolve_gemini_models,
+        )
 
         key = (api_key or "").strip()
         cred = await self.get_credential(user)

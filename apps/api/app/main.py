@@ -37,7 +37,11 @@ async def lifespan(_app: FastAPI):
         if settings.demo_mode and settings.database_url.startswith("sqlite"):
             from sqlalchemy import create_engine, event, text
 
-            from app.core.database import configure_sqlite_connection, is_sqlite_url, sqlite_connect_args
+            from app.core.database import (
+                configure_sqlite_connection,
+                is_sqlite_url,
+                sqlite_connect_args,
+            )
             from app.core.demo_schema import ensure_sqlite_demo_schema
 
             sync_url = settings.database_url.replace("sqlite+aiosqlite", "sqlite", 1)

@@ -1,5 +1,6 @@
-from app.confluence.ssrf import SsrfBlocked, assert_public_url, normalize_base_url
 import pytest
+
+from app.confluence.ssrf import SsrfBlocked, assert_public_url, normalize_base_url
 
 
 def test_normalize_base_url_adds_https() -> None:

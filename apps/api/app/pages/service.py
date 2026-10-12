@@ -25,7 +25,6 @@ from app.models.user import User
 from app.permissions.service import PermissionService
 from app.schemas.page import PagePermissions
 
-
 ACTIVE_STATUSES = {DocumentStatus.READY, DocumentStatus.DRAFT, DocumentStatus.PENDING}
 _TAG_RE = re.compile(r"<[^>]+>")
 _WS_RE = re.compile(r"\s+")

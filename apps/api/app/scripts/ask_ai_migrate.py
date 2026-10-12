@@ -7,7 +7,7 @@ import asyncio
 import logging
 from uuid import UUID
 
-from sqlalchemy import select, text
+from sqlalchemy import select
 
 from app.core.config import settings
 from app.core.database import AsyncSessionLocal, engine

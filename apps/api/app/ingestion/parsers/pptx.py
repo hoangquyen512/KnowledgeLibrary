@@ -96,7 +96,7 @@ class PptxParser:
                     nums = [c.metadata.get("slide_number") for c in buf]
                     text = "\n\n".join(c.text for c in buf)
                     first = buf[0]
-                    last = buf[-1]
+                    buf[-1]
                     merged.append(
                         ChunkHint(
                             text=text,

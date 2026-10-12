@@ -32,10 +32,11 @@ class DocxParser:
         self, data: bytes, *, filename: str, options: dict[str, Any] | None = None
     ) -> ParseResult:
         try:
+            import io
+
             from docx import Document as DocxDocument
             from docx.table import Table
             from docx.text.paragraph import Paragraph
-            import io
 
             doc = DocxDocument(io.BytesIO(data))
             sections: list[NormalizedSection] = []

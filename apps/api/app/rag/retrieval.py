@@ -14,7 +14,6 @@ from app.models.document import (
     Document,
     DocumentChunk,
     DocumentStatus,
-    DocumentType,
 )
 from app.models.space import Space, SpaceRole
 from app.models.user import User
@@ -23,12 +22,13 @@ from app.permissions.service import PermissionService
 from app.rag.fusion import cosine_similarity, embedding_is_usable, rrf_fuse
 from app.rag.query_rewrite import rewrite_query_variants, should_rewrite_query
 from app.rag.rerank import rerank_hits
-from app.rag.search_tokens import extract_precision_phrases, extract_search_phrases, extract_search_tokens
+from app.rag.search_tokens import (
+    extract_precision_phrases,
+    extract_search_tokens,
+)
+from app.rag.types import RetrievalHit
 
 ACTIVE_PAGE = (DocumentStatus.READY, DocumentStatus.DRAFT)
-
-
-from app.rag.types import RetrievalHit
 
 
 def _is_postgres() -> bool:

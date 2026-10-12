@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import hashlib
+import json
 import logging
 from datetime import UTC, datetime
 from pathlib import Path
@@ -55,8 +56,8 @@ from app.ingestion.sync import SyncPlan, compute_next_sync_at, compute_sync_plan
 from app.models.agent import ConnectorJob, JobStatus, JobType
 from app.models.audit import AuditAction
 from app.models.confluence import (
-    ConnectionMode,
     ConfluenceConnection,
+    ConnectionMode,
     CredentialLocation,
 )
 from app.models.document import (
@@ -85,9 +86,7 @@ from app.models.source import (
 )
 from app.models.space import Space, SpaceRole
 from app.models.user import User
-from app.models.workspace import WorkspaceRole
 from app.permissions.service import PermissionService
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -1207,6 +1206,8 @@ class IngestionService:
 
                         async def _one(
                             att: dict[str, Any],
+                            *,
+                            _sem: asyncio.Semaphore = sem,
                         ) -> dict[str, Any] | Exception | None:
                             fname = att.get("title") or "file"
                             declared = int(att.get("file_size") or 0)
@@ -1219,7 +1220,7 @@ class IngestionService:
                             path = att.get("download_path") or ""
                             if not path:
                                 return None
-                            async with sem:
+                            async with _sem:
                                 try:
                                     data, ctype = await client.download_attachment(path)
                                 except ConfluenceClientError as exc:
@@ -1609,11 +1610,11 @@ class IngestionService:
                 pages_meta: list[dict[str, Any]] = []
                 error_count = 0
                 processed = 0
-                for i, ref in enumerate(remote_pages):
+                for _i, ref in enumerate(remote_pages):
                     ext_id = str(ref.get("id") or "")
                     if ext_id not in fetch_ids:
                         continue
-                    title = str(ref.get("title") or ext_id)
+                    str(ref.get("title") or ext_id)
                     try:
                         await self._raise_if_cancelled(job)
                         page = await client.get_page(ext_id)
@@ -2042,7 +2043,7 @@ class IngestionService:
         for att in attachments_in:
             try:
                 if att.get("data") is not None:
-                    data = att["data"] if isinstance(att["data"], (bytes, bytearray)) else b""
+                    data = att["data"] if isinstance(att["data"], bytes | bytearray) else b""
                 else:
                     raw_b64 = att.get("data_b64") or ""
                     data = base64.b64decode(raw_b64) if raw_b64 else b""
@@ -2521,7 +2522,7 @@ class IngestionService:
             return
         source = await self._get_source(job.source_id)
         try:
-            from app.jira.client import JiraClient, JiraClientError
+            from app.jira.client import JiraClient
             from app.jira.normalize import normalize_jira_issue
             from app.models.jira import JiraConnection
 

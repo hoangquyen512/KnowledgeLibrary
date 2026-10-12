@@ -3,10 +3,9 @@ from __future__ import annotations
 import json
 import logging
 import re
+from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
-from typing import Any, AsyncIterator, Protocol
-
-import httpx
+from typing import Any, Protocol
 
 from app.core.config import settings
 from app.rag.gemini_models import DEFAULT_GEMINI_MODEL, gemini_generate_best

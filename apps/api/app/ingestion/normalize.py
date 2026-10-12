@@ -7,7 +7,6 @@ from html import unescape
 
 from bs4 import BeautifulSoup, NavigableString, Tag
 
-
 SCRIPT_OR_EVENT = re.compile(r"^on\w+", re.I)
 
 

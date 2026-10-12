@@ -1,4 +1,3 @@
-from app.ingestion.service import IngestionService
 from app.ingestion.storage import ObjectStorage, get_object_storage
 
 

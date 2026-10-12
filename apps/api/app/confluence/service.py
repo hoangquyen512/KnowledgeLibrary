@@ -21,10 +21,10 @@ from app.core.security import decrypt_secret, encrypt_secret, mask_secret
 from app.ingestion.storage import get_object_storage
 from app.models.audit import AuditAction
 from app.models.confluence import (
+    ConfluenceConnection,
     ConnectionAuthType,
     ConnectionMode,
     ConnectionStatus,
-    ConfluenceConnection,
     CredentialLocation,
 )
 from app.models.document import Attachment, Document, DocumentChunk

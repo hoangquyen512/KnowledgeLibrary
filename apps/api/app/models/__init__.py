@@ -23,7 +23,6 @@ from app.models.jira import JiraConnection
 from app.models.share import ShareLink, ShareLinkRedemption, ShareLinkStatus, ShareTargetType
 from app.models.source import Source
 from app.models.source_file import SourceFile
-from app.models.studio import StudioArtifact, StudioArtifactSource
 from app.models.space import (
     Space,
     SpaceMembership,
@@ -33,6 +32,7 @@ from app.models.space import (
     UserRecentSpace,
     UserStarredSpace,
 )
+from app.models.studio import StudioArtifact, StudioArtifactSource
 from app.models.user import User, UserSettings, UserStatus
 from app.models.workspace import (
     MembershipSource,

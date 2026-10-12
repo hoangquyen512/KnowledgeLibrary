@@ -45,7 +45,7 @@ def _sheet_to_rows(ws: Any) -> tuple[list[str], list[list[str]]]:
 
 def _format_table(headers: list[str], rows: list[list[str]], *, start_row: int) -> str:
     lines = [" | ".join(headers), " | ".join("---" for _ in headers)]
-    for offset, row in enumerate(rows):
+    for _offset, row in enumerate(rows):
         lines.append(" | ".join(row))
     return f"Rows {start_row}–{start_row + len(rows) - 1}\n" + "\n".join(lines)
 

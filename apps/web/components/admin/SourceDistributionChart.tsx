@@ -7,6 +7,7 @@ import { AdminPanelEmpty, AdminPanelError } from "./AdminMetricCard";
 
 const COLORS: Record<string, string> = {
   confluence: "#3b82f6",
+  jira: "#0052cc",
   google_drive: "#22c55e",
   upload: "#f59e0b",
   web: "#ef4444",

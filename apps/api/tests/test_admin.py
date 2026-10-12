@@ -153,7 +153,7 @@ async def test_admin_dashboard_aggregates(
     dist = sources.json()
     assert dist["total"] >= 1
     keys = [item["key"] for item in dist["items"]]
-    assert keys == ["confluence", "google_drive", "upload", "web", "other"]
+    assert keys == ["confluence", "jira", "google_drive", "upload", "web", "other"]
     confluence = next(item for item in dist["items"] if item["key"] == "confluence")
     assert confluence["count"] >= 1
 
@@ -216,11 +216,22 @@ async def test_unviewed_document_is_not_in_top_documents(
         active_user, name=f"Quiet-{uuid4().hex[:6]}", description=None
     )
     space, _ = await SpaceService(db_session).create(active_user, ws.id, name="Quiet Space")
+    source = Source(
+        workspace_id=ws.id,
+        space_id=space.id,
+        type=SourceType.LOCAL,
+        name="Quiet Source",
+        status=SourceStatus.READY,
+        created_by_user_id=active_user.id,
+    )
+    db_session.add(source)
+    await db_session.flush()
     title = f"Unviewed page {uuid4().hex[:8]}"
     db_session.add(
         Document(
             workspace_id=ws.id,
             space_id=space.id,
+            source_id=source.id,
             external_id=f"ext-{uuid4()}",
             title=title,
             status=DocumentStatus.READY,

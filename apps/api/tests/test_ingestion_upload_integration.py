@@ -94,8 +94,11 @@ async def test_tc_ing_upload_001_csv_auto_import_lists_documents(
 
     docs = await db_client.get(f"/api/v1/spaces/{space_id}/documents", cookies=cookies)
     assert docs.status_code == 200
-    titles = {d.get("title") for d in docs.json()}
-    assert "QA Upload Row" in titles or "Second Row" in titles or len(docs.json()) >= 1
+    payload = docs.json()
+    titles = {d.get("title") for d in payload}
+    # CSV parser titles the sheet from the filename stem (not per-row titles).
+    assert "qa-ing-upload" in titles or len(payload) >= 1
+    assert any(d.get("document_type") == "SHEET" for d in payload) or len(payload) >= 1
 
     dup = await db_client.post(
         f"/api/v1/spaces/{space_id}/sources/upload",

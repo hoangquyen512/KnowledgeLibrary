@@ -60,6 +60,7 @@ from app.models.confluence import (
     CredentialLocation,
 )
 from app.models.document import (
+    INDEXABLE_DOCUMENT_TYPES,
     Attachment,
     Document,
     DocumentChunk,
@@ -403,8 +404,13 @@ class IngestionService:
         return source
 
     async def _dispatch_direct(self, job_id: UUID) -> None:
-        # Demo/dev: always run in API process (start.cmd does not start a Celery worker).
-        if settings.demo_mode or settings.app_env in ("development", "test"):
+        # Pytest/ASGITransport: await inline so the job shares the request event loop
+        # (create_task + AsyncSessionLocal often hits "attached to a different loop").
+        if settings.app_env == "test":
+            await run_ingestion_job(job_id)
+            return
+        # Demo/dev: run in API process (start.cmd does not start a Celery worker).
+        if settings.demo_mode or settings.app_env == "development":
             asyncio.create_task(run_ingestion_job(job_id))
             return
         try:
@@ -707,7 +713,7 @@ class IngestionService:
         await self.permissions.require_space_access(space_id, user.id, SpaceRole.VIEWER)
         filters = [
             Document.space_id == space_id,
-            Document.document_type == DocumentType.PAGE,
+            Document.document_type.in_(INDEXABLE_DOCUMENT_TYPES),
             Document.deleted_at.is_(None),
             or_(Document.source_id.is_(None), Source.deleted_at.is_(None)),
         ]

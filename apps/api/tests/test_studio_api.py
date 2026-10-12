@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.security import encrypt_secret
 from app.models.ai import AiCredentialStatus, UserAiCredential
 from app.models.document import Document, DocumentStatus, DocumentType, DocumentOrigin
+from app.models.source import Source, SourceStatus, SourceType
 from app.models.studio import StudioArtifactStatus
 from app.spaces.service import SpaceService
 from app.studio.export_pptx import export_presentation_pptx
@@ -46,11 +47,21 @@ async def test_studio_create_and_poll_mocked(
 
     ws = await WorkspaceService(db_session).create(active_user, name="Studio WS", description=None)
     space, _ = await SpaceService(db_session).create(active_user, ws.id, name="Docs")
+    source = Source(
+        workspace_id=ws.id,
+        space_id=space.id,
+        type=SourceType.LOCAL,
+        name="Studio Source",
+        status=SourceStatus.READY,
+        created_by_user_id=active_user.id,
+    )
+    db_session.add(source)
+    await db_session.flush()
     doc = Document(
         id=uuid4(),
         workspace_id=ws.id,
         space_id=space.id,
-        source_id=None,
+        source_id=source.id,
         external_id="local-1",
         document_type=DocumentType.PAGE,
         title="Refund Policy",

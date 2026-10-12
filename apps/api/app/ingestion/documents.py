@@ -7,7 +7,7 @@ from fastapi import HTTPException, status
 from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.document import Attachment, Document, DocumentType
+from app.models.document import INDEXABLE_DOCUMENT_TYPES, Attachment, Document
 from app.models.source import Source
 from app.models.space import SpaceRole
 from app.models.user import User
@@ -25,7 +25,7 @@ async def list_space_documents(
     await permissions.require_space_access(space_id, user.id, SpaceRole.VIEWER)
     filters = [
         Document.space_id == space_id,
-        Document.document_type == DocumentType.PAGE,
+        Document.document_type.in_(INDEXABLE_DOCUMENT_TYPES),
         Document.deleted_at.is_(None),
         or_(Document.source_id.is_(None), Source.deleted_at.is_(None)),
     ]

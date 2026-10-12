@@ -84,9 +84,10 @@ async def test_studio_create_and_poll_mocked(
     )
     await db_session.commit()
 
-    async def fake_generate_json(api_key, prompt, *, preferred_model):  # noqa: ANN001
+    async def fake_generate_json(self, api_key, prompt, *, preferred_model):  # noqa: ANN001
         return (
-            '{"title":"Refund Deck","slides":[{"title":"Summary","bullets":["30-day window"],"notes":"Note","source_indices":[1]}]}',
+            '{"title":"Refund Deck","slides":[{"title":"Summary","bullets":["30-day window"],'
+            '"notes":"Note","source_indices":[1]}]}',
             "gemini-flash-latest",
             10,
             20,

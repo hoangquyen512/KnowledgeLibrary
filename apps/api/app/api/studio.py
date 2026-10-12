@@ -65,13 +65,13 @@ async def create_studio_artifact(
         space_ids=body.space_ids,
         document_ids=body.document_ids,
     )
+    artifact_id = artifact.id
     if is_test_runtime():
-        # ASGITransport: run inline so status is visible on the create response /
-        # next GET (BackgroundTasks + AsyncSessionLocal race the loop).
-        await run_studio_generation(artifact.id)
-        db.expire_all()
+        # ASGITransport: run inline (BackgroundTasks + AsyncSessionLocal race the loop).
+        await run_studio_generation(artifact_id)
+        artifact = await svc.get_artifact(user, artifact_id)
     else:
-        background_tasks.add_task(run_studio_generation, artifact.id)
+        background_tasks.add_task(run_studio_generation, artifact_id)
     return await _out_with_sources(svc, artifact)
 
 
@@ -137,7 +137,7 @@ async def regenerate_studio_artifact(
     )
     if is_test_runtime():
         await run_studio_generation(artifact_id, slide_id=slide_id)
-        db.expire_all()
+        artifact = await svc.get_artifact(user, artifact_id)
     else:
         background_tasks.add_task(run_studio_generation, artifact_id, slide_id=slide_id)
     return await _out_with_sources(svc, artifact)

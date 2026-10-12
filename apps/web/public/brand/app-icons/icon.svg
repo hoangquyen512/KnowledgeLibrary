@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" role="img" aria-label="Knowledge Library">
+  <defs>
+    <linearGradient id="appBg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1A4A"/>
+      <stop offset="0.55" stop-color="#102A6A"/>
+      <stop offset="1" stop-color="#1A3480"/>
+    </linearGradient>
+    <linearGradient id="bodyGradA" x1="120" y1="80" x2="360" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E1E4F"/>
+      <stop offset="0.4" stop-color="#243D91"/>
+      <stop offset="1" stop-color="#5137C7"/>
+    </linearGradient>
+    <linearGradient id="packGradA" x1="300" y1="220" x2="420" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#283EC8"/>
+      <stop offset="1" stop-color="#6C3EF0"/>
+    </linearGradient>
+    <linearGradient id="glassGradA" x1="300" y1="140" x2="460" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2752D8"/>
+      <stop offset="1" stop-color="#6254F1"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop stop-color="#2F5BEA" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#102A6A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#appBg)"/>
+  <circle cx="256" cy="240" r="200" fill="url(#glow)"/>
+  <!-- leaves -->
+  <ellipse cx="110" cy="380" rx="36" ry="20" fill="#D9D5FF" opacity="0.55" transform="rotate(-25 110 380)"/>
+  <ellipse cx="150" cy="400" rx="28" ry="16" fill="#C8C2F5" opacity="0.45" transform="rotate(18 150 400)"/>
+  <path d="M390 110 L398 128 L418 120 L404 136 L422 148 L400 148 L392 168 L384 148 L362 148 L380 136 L366 120 L386 128 Z" fill="#D9D5FF" opacity="0.55"/>
+  <!-- body (padded ~18%) -->
+  <ellipse cx="220" cy="400" rx="22" ry="14" fill="#0A1638"/>
+  <ellipse cx="270" cy="404" rx="22" ry="14" fill="#0A1638"/>
+  <ellipse cx="248" cy="330" rx="78" ry="88" fill="url(#bodyGradA)"/>
+  <rect x="300" y="270" width="78" height="92" rx="20" fill="url(#packGradA)"/>
+  <text x="339" y="340" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700" fill="#FFFFFF">Q</text>
+  <ellipse cx="178" cy="310" rx="18" ry="28" fill="#243D91" transform="rotate(-18 178 310)"/>
+  <ellipse cx="236" cy="200" rx="86" ry="82" fill="url(#bodyGradA)"/>
+  <ellipse cx="200" cy="172" rx="28" ry="18" fill="#6B8CFF" opacity="0.3"/>
+  <path d="M200 140 C186 100 164 86 138 82" stroke="#243D91" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="134" cy="78" r="14" fill="#4B4FE8"/>
+  <path d="M274 136 C292 96 318 82 348 82" stroke="#243D91" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="352" cy="78" r="14" fill="#6C3EF0"/>
+  <ellipse cx="208" cy="204" rx="22" ry="28" fill="#F8FAFF"/>
+  <ellipse cx="262" cy="204" rx="22" ry="28" fill="#F8FAFF"/>
+  <circle cx="214" cy="210" r="11" fill="#0B1220"/>
+  <circle cx="268" cy="210" r="11" fill="#0B1220"/>
+  <circle cx="218" cy="204" r="3.5" fill="#fff"/>
+  <circle cx="272" cy="204" r="3.5" fill="#fff"/>
+  <path d="M220 240 C232 252 250 252 262 240" stroke="#1A2A5A" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="348" cy="220" r="54" stroke="url(#glassGradA)" stroke-width="16" fill="#D9D5FF" fill-opacity="0.22"/>
+  <circle cx="328" cy="200" r="14" fill="#fff" opacity="0.4"/>
+  <path d="M388 260 L424 304" stroke="url(#glassGradA)" stroke-width="18" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none" role="img" aria-label="Knowledge Library">
+  <defs>
+    <linearGradient id="ogBg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFF"/>
+      <stop offset="0.5" stop-color="#EEF1FF"/>
+      <stop offset="1" stop-color="#E4E8FF"/>
+    </linearGradient>
+    <linearGradient id="bodyGradO" x1="700" y1="80" x2="1050" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E1E4F"/>
+      <stop offset="0.4" stop-color="#243D91"/>
+      <stop offset="1" stop-color="#5137C7"/>
+    </linearGradient>
+    <linearGradient id="packGradO" x1="920" y1="260" x2="1080" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#283EC8"/>
+      <stop offset="1" stop-color="#6C3EF0"/>
+    </linearGradient>
+    <linearGradient id="glassGradO" x1="900" y1="140" x2="1120" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2752D8"/>
+      <stop offset="1" stop-color="#6254F1"/>
+    </linearGradient>
+    <linearGradient id="libWordO" x1="80" y1="220" x2="520" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2F5BEA"/>
+      <stop offset="1" stop-color="#6C3EF0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#ogBg)"/>
+  <circle cx="980" cy="180" r="220" fill="#D9D5FF" opacity="0.45"/>
+  <circle cx="1080" cy="480" r="160" fill="#C8C2F5" opacity="0.35"/>
+
+  <text x="88" y="250" font-family="Segoe UI, DM Sans, Arial, sans-serif" font-size="64" font-weight="700" fill="#102A6A">Knowledge</text>
+  <text x="88" y="330" font-family="Segoe UI, DM Sans, Arial, sans-serif" font-size="64" font-weight="500" fill="url(#libWordO)">Library</text>
+  <text x="88" y="390" font-family="Segoe UI, DM Sans, Arial, sans-serif" font-size="26" font-weight="500" fill="#667085" letter-spacing="0.06em">Explore " Understand " Grow</text>
+
+  <!-- mascot right -->
+  <ellipse cx="860" cy="520" rx="36" ry="18" fill="#0A1638" opacity="0.35"/>
+  <ellipse cx="930" cy="524" rx="36" ry="18" fill="#0A1638" opacity="0.35"/>
+  <ellipse cx="900" cy="430" rx="100" ry="115" fill="url(#bodyGradO)"/>
+  <rect x="980" y="360" width="100" height="120" rx="24" fill="url(#packGradO)"/>
+  <text x="1030" y="448" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#FFFFFF">Q</text>
+  <ellipse cx="810" cy="410" rx="24" ry="36" fill="#243D91" transform="rotate(-20 810 410)"/>
+  <ellipse cx="880" cy="250" rx="110" ry="105" fill="url(#bodyGradO)"/>
+  <path d="M830 170 C810 110 780 90 740 84" stroke="#243D91" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="734" cy="80" r="16" fill="#4B4FE8"/>
+  <path d="M930 165 C960 110 1000 90 1040 90" stroke="#243D91" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="1046" cy="86" r="16" fill="#6C3EF0"/>
+  <ellipse cx="845" cy="255" rx="28" ry="36" fill="#F8FAFF"/>
+  <ellipse cx="915" cy="255" rx="28" ry="36" fill="#F8FAFF"/>
+  <circle cx="852" cy="262" r="14" fill="#0B1220"/>
+  <circle cx="922" cy="262" r="14" fill="#0B1220"/>
+  <path d="M860 300 C880 316 900 316 920 300" stroke="#1A2A5A" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="1020" cy="280" r="70" stroke="url(#glassGradO)" stroke-width="20" fill="#D9D5FF" fill-opacity="0.25"/>
+  <path d="M1072 330 L1120 390" stroke="url(#glassGradO)" stroke-width="22" stroke-linecap="round"/>
+</svg>

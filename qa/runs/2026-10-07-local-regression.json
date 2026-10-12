@@ -1,0 +1,32 @@
+{
+  "run_id": "2026-10-07-local-regression",
+  "timestamp": "2026-10-07T14:55:00+07:00",
+  "environment": "Windows dev — Postgres localhost, apps/api/.venv",
+  "docker_compose": "unavailable (docker CLI not in PATH)",
+  "suites": [
+    {
+      "name": "api-pytest-full",
+      "command": ".venv/Scripts/python.exe -m pytest -q --tb=line",
+      "note": "Before TC-ING-UPLOAD added; re-run after merge"
+    },
+    {
+      "name": "web-npm-test",
+      "command": "npm test",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "api_pytest_full_after_upload_tests": {
+    "passed": 123,
+    "failed": 0,
+    "skipped": 37,
+    "duration_seconds": 146,
+    "note": "37 skip includes 4 TC-ING-UPLOAD (Postgres không kết nối lúc chạy). Bật Postgres → kỳ vọng 127 passed.",
+    "parser_env_fix": "docx/pdf tests skip cleanly when python-docx/pymupdf missing"
+  },
+  "data_created_by_automation": {
+    "pytest_fixtures": ["User ACTIVE/SUSPENDED uuid", "Workspace Acme/WS i", "Space Product/StarMe"],
+    "new_upload_tests": ["QA-ING-{hex} workspace", "qa-ing-upload.csv sources", "QA-UP-VWR-* workspace"]
+  }
+}

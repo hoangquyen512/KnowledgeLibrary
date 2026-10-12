@@ -1,0 +1,41 @@
+{
+  "name": "knowledge-library-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0 -p 3000",
+    "build": "next build",
+    "start": "next start -H 0.0.0.0 -p 3000",
+    "lint": "next lint",
+    "test": "node --test lib/api.test.mjs lib/ask-ai.test.mjs lib/admin-format.test.mjs lib/nav-path.test.mjs lib/auth-public.test.mjs",
+    "test:e2e": "playwright test",
+    "brand:rasterize": "node scripts/rasterize-brand.mjs",
+    "brand:apply-3d": "node scripts/apply-3d-mascot.mjs",
+    "brand:apply-svg": "node scripts/apply-user-svg.mjs"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.102.4",
+    "lucide-react": "^1.34.0",
+    "next": "^15.5.7",
+    "next-themes": "^0.4.6",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "recharts": "^2.15.4",
+    "sonner": "^2.0.8",
+    "zod": "3.24.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/node": "22.10.2",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "autoprefixer": "10.4.20",
+    "eslint": "9.17.0",
+    "eslint-config-next": "^15.5.7",
+    "png-to-ico": "^2.1.8",
+    "postcss": "8.4.49",
+    "tailwindcss": "3.4.17",
+    "typescript": "5.7.2"
+  }
+}

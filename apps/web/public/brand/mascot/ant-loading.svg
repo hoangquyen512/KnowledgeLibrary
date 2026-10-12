@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="Loading">
+  <defs>
+    <linearGradient id="loadHead" x1="20" y1="16" x2="80" y2="90" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E1E4F"/>
+      <stop offset="0.45" stop-color="#243D91"/>
+      <stop offset="1" stop-color="#5137C7"/>
+    </linearGradient>
+    <linearGradient id="loadGlass" x1="70" y1="30" x2="118" y2="90" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2752D8"/>
+      <stop offset="1" stop-color="#6254F1"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 52 36; 4 52 36; 0 52 36; -3 52 36; 0 52 36" dur="1.8s" repeatCount="indefinite"/>
+    <path d="M44 34 C40 18 32 12 24 10" stroke="#243D91" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="23" cy="9" r="4" fill="#4B4FE8"/>
+    <path d="M60 32 C66 16 76 10 88 10" stroke="#243D91" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="90" cy="9" r="4" fill="#6C3EF0"/>
+  </g>
+  <ellipse cx="52" cy="58" rx="28" ry="26" fill="url(#loadHead)"/>
+  <ellipse cx="42" cy="50" rx="9" ry="6" fill="#6B8CFF" opacity="0.35"/>
+  <ellipse cx="42" cy="58" rx="8" ry="10" fill="#F8FAFF"/>
+  <ellipse cx="60" cy="58" rx="8" ry="10" fill="#F8FAFF"/>
+  <circle cx="44" cy="60" r="3.8" fill="#0B1220"/>
+  <circle cx="62" cy="60" r="3.8" fill="#0B1220"/>
+  <path d="M46 70 C50 74 58 74 62 70" stroke="#1A2A5A" stroke-width="2.5" stroke-linecap="round"/>
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 3 -2; 0 0; -2 1; 0 0" dur="1.8s" repeatCount="indefinite"/>
+    <circle cx="88" cy="64" r="18" stroke="url(#loadGlass)" stroke-width="6" fill="#D9D5FF" fill-opacity="0.3"/>
+    <circle cx="82" cy="58" r="5" fill="#fff" opacity="0.45"/>
+    <path d="M101 78 L112 92" stroke="url(#loadGlass)" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>

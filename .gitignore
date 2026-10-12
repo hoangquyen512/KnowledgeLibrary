@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local brainstorm / agent artifacts
+.superpowers/
+
+data/
+logs/
+*.db
+*.db-*
+*.log
+apps/api/data/object-store/
+
+# MinIO / local storage
+.minio/
+
+# Connector agent local secrets
+.agent_state.json
+apps/connector-agent/.agent_state.json
+

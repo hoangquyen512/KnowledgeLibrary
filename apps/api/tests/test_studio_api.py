@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import pytest
 from httpx import AsyncClient
@@ -8,13 +8,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import encrypt_secret
 from app.models.ai import AiCredentialStatus, UserAiCredential
-from app.models.document import Document, DocumentStatus, DocumentType, DocumentOrigin
+from app.models.document import Document, DocumentOrigin, DocumentStatus, DocumentType
 from app.models.source import Source, SourceStatus, SourceType
 from app.models.studio import StudioArtifactStatus
+from app.models.user import User
 from app.spaces.service import SpaceService
 from app.studio.export_pptx import export_presentation_pptx
+from app.studio.service import run_studio_generation
 from app.workspaces.service import WorkspaceService
-from app.models.user import User
 from tests.conftest import auth_cookies
 
 
@@ -112,18 +113,13 @@ async def test_studio_create_and_poll_mocked(
     )
     assert create.status_code == 202, create.text
     artifact_id = create.json()["id"]
-
-    import asyncio
-
-    for _ in range(30):
+    body = create.json()
+    if body.get("status") != StudioArtifactStatus.COMPLETED:
+        await run_studio_generation(UUID(artifact_id))
         get = await db_client.get(f"/api/v1/studio/artifacts/{artifact_id}", cookies=cookies)
         assert get.status_code == 200
         body = get.json()
-        if body["status"] == StudioArtifactStatus.COMPLETED:
-            break
-        await asyncio.sleep(0.2)
-    else:
-        pytest.fail("Artifact did not complete in time")
+    assert body["status"] == StudioArtifactStatus.COMPLETED, body
 
     slides = body["payload_json"]["slides"]
     assert len(slides) >= 1

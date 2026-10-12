@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-import asyncio
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import pytest
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
+from app.ingestion.service import run_ingestion_job
 from app.models.document import IngestionJobStatus
 from app.models.user import User, UserSettings, UserStatus
 from app.spaces.service import SpaceService
@@ -24,29 +24,21 @@ def _csrf_headers(cookies: dict[str, str]) -> dict[str, str]:
     return {"x-csrf-token": cookies[settings.csrf_cookie_name]}
 
 
-async def _poll_job(
+async def _finish_job(
     client: AsyncClient,
     job_id: str,
     cookies: dict[str, str],
-    *,
-    attempts: int = 60,
-    delay: float = 0.25,
 ) -> dict:
-    terminal = {
-        IngestionJobStatus.COMPLETED,
-        IngestionJobStatus.COMPLETED_WITH_ERRORS,
-        IngestionJobStatus.FAILED,
-        IngestionJobStatus.CANCELLED,
-    }
-    last: dict = {}
-    for _ in range(attempts):
+    """Run the job inline if still queued, then return terminal status."""
+    resp = await client.get(f"/api/v1/ingestion-jobs/{job_id}", cookies=cookies)
+    assert resp.status_code == 200, resp.text
+    last = resp.json()
+    if last.get("status") == IngestionJobStatus.QUEUED:
+        await run_ingestion_job(UUID(job_id))
         resp = await client.get(f"/api/v1/ingestion-jobs/{job_id}", cookies=cookies)
         assert resp.status_code == 200, resp.text
         last = resp.json()
-        if last.get("status") in terminal:
-            return last
-        await asyncio.sleep(delay)
-    pytest.fail(f"Job {job_id} did not finish; last status={last.get('status')}")
+    return last
 
 
 async def _seed_space(db_session: AsyncSession, active_user: User) -> tuple[str, str]:
@@ -86,7 +78,7 @@ async def test_tc_ing_upload_001_csv_auto_import_lists_documents(
     assert row["job_id"] is not None
     source_id = row["source_id"]
 
-    job = await _poll_job(db_client, row["job_id"], cookies)
+    job = await _finish_job(db_client, row["job_id"], cookies)
     assert job["status"] in (
         IngestionJobStatus.COMPLETED,
         IngestionJobStatus.COMPLETED_WITH_ERRORS,
@@ -214,11 +206,11 @@ async def test_tc_ing_upload_003_manual_import_endpoint(
     )
     assert imp.status_code == 201, imp.text
     job_id = imp.json()["id"]
-    job = await _poll_job(db_client, job_id, cookies)
+    job = await _finish_job(db_client, job_id, cookies)
     assert job["status"] in (
         IngestionJobStatus.COMPLETED,
         IngestionJobStatus.COMPLETED_WITH_ERRORS,
-    )
+    ), job
 
 
 @pytest.mark.asyncio

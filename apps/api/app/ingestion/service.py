@@ -404,9 +404,11 @@ class IngestionService:
         return source
 
     async def _dispatch_direct(self, job_id: UUID) -> None:
+        from app.core.runtime import is_test_runtime
+
         # Pytest/ASGITransport: await inline so the job shares the request event loop
         # (create_task + AsyncSessionLocal often hits "attached to a different loop").
-        if settings.app_env == "test":
+        if is_test_runtime():
             await run_ingestion_job(job_id)
             # Worker used a separate session; drop cached QUEUED rows on this session.
             self.db.expire_all()

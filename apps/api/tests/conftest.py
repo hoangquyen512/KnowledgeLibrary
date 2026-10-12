@@ -11,7 +11,8 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 
-os.environ.setdefault("APP_ENV", "test")
+# Force test mode before importing app settings (apps/api/.env may say development).
+os.environ["APP_ENV"] = "test"
 os.environ.setdefault("SESSION_SECRET", "test-session-secret-at-least-32-chars!!")
 os.environ.setdefault("APP_ENCRYPTION_KEY", "test-encryption-key-32bytes-long!!")
 os.environ.setdefault(
@@ -32,8 +33,11 @@ os.environ.setdefault("REDIS_URL", os.environ.get("REDIS_URL", "redis://localhos
 
 from app.auth.session import create_session_token  # noqa: E402
 from app.core.config import settings  # noqa: E402
-from app.core.database import Base, get_db  # noqa: E402
+from app.core.database import Base  # noqa: E402
 from app.main import app  # noqa: E402
+
+# Belts-and-suspenders if Settings was constructed from a stale env snapshot.
+settings.app_env = "test"
 from app.models import (  # noqa: E402, F401
     AuditLog,
     ShareLink,
@@ -108,17 +112,13 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
 
 @pytest_asyncio.fixture
 async def db_client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
-    async def _override_db() -> AsyncGenerator[AsyncSession, None]:
-        # Background/inline jobs commit via AsyncSessionLocal. Expire cached
-        # instances so subsequent GETs see those commits instead of stale QUEUED.
-        db_session.expire_all()
-        yield db_session
-
-    app.dependency_overrides[get_db] = _override_db
+    # Do NOT override get_db with the fixture session. Shared sessions hide
+    # commits from AsyncSessionLocal workers (stale QUEUED identity map) and
+    # interact badly with BaseHTTPMiddleware + background tasks.
+    await db_session.commit()
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac
-    app.dependency_overrides.clear()
 
 
 @pytest_asyncio.fixture

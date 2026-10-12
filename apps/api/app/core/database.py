@@ -35,7 +35,8 @@ def _engine_kwargs() -> dict:
     kwargs: dict = {"pool_pre_ping": True}
     # pytest-asyncio function-scoped loops + a pooled engine → "Event loop is closed"
     # / "Future attached to a different loop". NullPool avoids cross-loop reuse.
-    if settings.app_env == "test" or is_sqlite_url(settings.database_url):
+    env_test = settings.app_env.strip().lower() == "test"
+    if env_test or is_sqlite_url(settings.database_url):
         kwargs["poolclass"] = NullPool
     if is_sqlite_url(settings.database_url):
         # SQLite file locks are per-connection; pooling causes "database is locked".

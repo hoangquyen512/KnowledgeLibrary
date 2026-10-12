@@ -7,8 +7,8 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.deps import get_current_user, require_csrf
-from app.core.config import settings
 from app.core.database import get_db
+from app.core.runtime import is_test_runtime
 from app.models.user import User
 from app.schemas.studio import (
     StudioArtifactCreate,
@@ -65,9 +65,9 @@ async def create_studio_artifact(
         space_ids=body.space_ids,
         document_ids=body.document_ids,
     )
-    if settings.app_env == "test":
-        # ASGITransport + shared test session: run inline so status is visible
-        # on the next GET (BackgroundTasks + AsyncSessionLocal race the loop).
+    if is_test_runtime():
+        # ASGITransport: run inline so status is visible on the create response /
+        # next GET (BackgroundTasks + AsyncSessionLocal race the loop).
         await run_studio_generation(artifact.id)
         db.expire_all()
     else:
@@ -135,7 +135,7 @@ async def regenerate_studio_artifact(
     artifact = await svc.schedule_regenerate(
         user, artifact_id, slide_id=slide_id, focus_prompt=focus_prompt
     )
-    if settings.app_env == "test":
+    if is_test_runtime():
         await run_studio_generation(artifact_id, slide_id=slide_id)
         db.expire_all()
     else:

@@ -71,6 +71,40 @@ Migrations run automatically on API start (`alembic upgrade head`).
 - API docs: http://localhost:8000/docs
 - MinIO console: http://localhost:9001 (minioadmin / minioadmin)
 
+## Production (Docker Compose on a VPS)
+
+HTTP / localhost-first stack (no TLS yet). Ports bind to `127.0.0.1` only.
+
+1. Copy and fill secrets:
+
+```bash
+cp .env.production.example .env.production
+```
+
+Generate values for `SESSION_SECRET`, `APP_ENCRYPTION_KEY`, `CONNECTOR_SIGNING_SECRET`, `POSTGRES_PASSWORD`, and MinIO passwords (same value in `S3_ACCESS_KEY` / `S3_SECRET_KEY` as MinIO root for this compose). Update `DATABASE_URL` / `DATABASE_URL_SYNC` to match the Postgres password. Set Google OAuth fields; keep redirect URI `http://localhost:8000/api/v1/auth/google/callback` until you have a public domain + HTTPS.
+
+2. Build and start:
+
+```bash
+docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+```
+
+3. Verify:
+
+- Web: http://localhost:3000
+- API: http://localhost:8000/health
+- MinIO console: http://localhost:9001
+
+4. Useful commands:
+
+```bash
+docker compose -f docker-compose.prod.yml --env-file .env.production ps
+docker compose -f docker-compose.prod.yml --env-file .env.production logs -f api worker web
+docker compose -f docker-compose.prod.yml --env-file .env.production down
+```
+
+Services: Postgres + pgvector, Redis, MinIO, embedding stub, API (migrates on start), Celery worker, Next.js production. When you later add a domain, put Caddy/nginx in front and set `SESSION_COOKIE_SECURE=true` + HTTPS OAuth redirect URIs.
+
 ## Google OAuth
 
 Scopes: `openid email profile` only.

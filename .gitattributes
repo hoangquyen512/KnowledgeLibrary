@@ -1,0 +1,3 @@
+# Ensure shell scripts keep LF for Linux containers on Windows checkouts
+*.sh text eol=lf
+docker-entrypoint.sh text eol=lf

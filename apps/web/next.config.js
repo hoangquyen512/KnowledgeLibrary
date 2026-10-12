@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Smaller production images (apps/web/Dockerfile.prod).
+  output: "standalone",
   transpilePackages: ["recharts"],
   async redirects() {
     return [

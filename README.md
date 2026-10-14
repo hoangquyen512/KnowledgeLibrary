@@ -71,6 +71,16 @@ Migrations run automatically on API start (`alembic upgrade head`).
 - API docs: http://localhost:8000/docs
 - MinIO console: http://localhost:9001 (minioadmin / minioadmin)
 
+## Production (Render free — giống Novel)
+
+Blueprint: [`render.yaml`](./render.yaml). Chi tiết từng bước Dashboard: [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+
+1. Push `main` lên GitHub (đã có `render.yaml`).
+2. Render Dashboard → project → **New** → **Blueprint** → chọn repo `KnowledgeLibrary`.
+3. Sau khi deploy: `https://kl-web.onrender.com` và `https://kl-api.onrender.com/health`.
+
+Free tier sleeps / Postgres 30 ngày — xem giới hạn trong `DEPLOYMENT.md`.
+
 ## Production (Docker Compose on a VPS)
 
 HTTP / localhost-first stack (no TLS yet). Ports bind to `127.0.0.1` only.
